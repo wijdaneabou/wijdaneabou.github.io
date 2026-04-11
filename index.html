@@ -544,82 +544,80 @@ article { animation: up 0.65s 0.1s ease both; }
     <div class="dcap">They compete until the fake looks real.</div>
   </div>
 
-  <!-- ── VAE ── -->
-  <h3>Architecture 2 — VAEs (Variational Autoencoders)</h3>
+<!-- ── VAE ── -->
+<h3>Architecture 2 — VAEs (Variational Autoencoders)</h3>
 
-  <div class="analogy">
-    <div class="analogy-label">Analogy</div>
-    <p>Imagine you can describe any face with just a few words : young, smiling, dark hair. That is it. A VAE does the same thing, but with numbers instead of words. It learns to shrink any image down to just a few numbers that capture what it looks like. Then it can work backwards , take any set of numbers and turn them back into an image. The numbers in the middle are the secret language the VAE invented for itself</p>
-  </div>
+<div class="analogy">
+  <div class="analogy-label">Analogy</div>
+  <p>Imagine you can describe any face with just a few words — young, smiling, dark hair. A VAE does the same thing but with numbers. It shrinks any image down to a few numbers, then rebuilds the image from those numbers. The numbers in the middle are the secret language the VAE invented for itself.</p>
+</div>
 
-  <p>
-    A VAE has two halves. The <strong>Encoder</strong> compresses images down to a small set of numbers. The <strong>Decoder</strong> expands those numbers back into images. Together, they learn a compressed language for describing what images look like.
-  </p>
+<p>A VAE has two parts. The <strong>Encoder</strong> squeezes a photo into a few numbers. The <strong>Decoder</strong> turns those numbers back into a photo. Once trained, you can give it any numbers and it will create a brand new image.</p>
 
-  <p><strong>How it works, step by step:</strong></p>
+<p><strong>How it works, step by step:</strong></p>
 
-  <div class="steps">
-    <div class="step">
-      <div class="sn"></div>
-      <div class="sb">
-        <h4>Feed a real image into the Encoder</h4>
-        <p>A photo of a face goes in. The Encoder reads it and squeezes all the information into just a handful of numbers  the coordinates on our map. This is called the latent space.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="sn"></div>
-      <div class="sb">
-        <h4>Add a little randomness</h4>
-        <p>Instead of a single point, the Encoder produces a small cloud of possible points. This is what makes it variational — it does not commit to one exact location, but a range. This is what makes generation possible later.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="sn"></div>
-      <div class="sb">
-        <h4>The Decoder reconstructs the image</h4>
-        <p>A point is picked from the cloud and handed to the Decoder. The Decoder expands those few numbers back into a full image. It tries to recreate the original photo as closely as possible.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="sn"></div>
-      <div class="sb">
-        <h4>The model learns by comparing</h4>
-        <p>We compare the reconstructed image to the original. The model adjusts to make them match better. It also learns to keep the map organized — similar faces should sit close together on the map.</p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="sn"></div>
-      <div class="sb">
-        <h4>To generate: skip the Encoder</h4>
-        <p>Once trained, we can pick any random point on the map, hand it to the Decoder, and get a brand new image. No input photo needed — just a coordinate on the learned map.</p>
-      </div>
+<div class="steps">
+  <div class="step">
+    <div class="sn"></div>
+    <div class="sb">
+      <h4>A photo goes in</h4>
+      <p>The Encoder reads the photo and squeezes it down to just a few numbers — like a short description of what the image looks like.</p>
     </div>
   </div>
-
-  <div class="diagram">
-    <div class="dlabel">How a VAE works</div>
-    <div class="flow" style="margin-bottom:14px;">
-      <div class="b gn">Photo in</div>
-      <div class="arr">→</div>
-      <div class="b dk">Compress<small>into a few numbers</small></div>
-      <div class="arr">→</div>
-      <div class="b dk">Rebuild<small>back to image</small></div>
-      <div class="arr">→</div>
-      <div class="b gn">Photo out</div>
+  <div class="step">
+    <div class="sn"></div>
+    <div class="sb">
+      <h4>The numbers are stored</h4>
+      <p>Instead of one exact number, the model keeps a small range. This little bit of flexibility is what allows it to generate new images later.</p>
     </div>
-    <div class="flow">
-      <div class="b dash">Pick any number</div>
-      <div class="arr">→</div>
-      <div class="b dk">Rebuild</div>
-      <div class="arr r">→</div>
-      <div class="b rd">New image</div>
-    </div>
-    <div class="dcap">Compress a photo into a few numbers. Use any numbers to create a new photo.</div>
   </div>
+  <div class="step">
+    <div class="sn"></div>
+    <div class="sb">
+      <h4>The Decoder rebuilds the photo</h4>
+      <p>The Decoder takes the numbers and expands them back into a full image. It tries to match the original as closely as possible.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sn"></div>
+    <div class="sb">
+      <h4>The model learns by comparing</h4>
+      <p>The rebuilt photo is compared to the original. The model adjusts until the two look the same. It does this millions of times.</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="sn"></div>
+    <div class="sb">
+      <h4>To create a new image — skip the photo</h4>
+      <p>Just pick any numbers and give them to the Decoder. No photo needed. The Decoder will create something new from those numbers alone.</p>
+    </div>
+  </div>
+</div>
 
-  <p>
-    The most powerful thing about a VAE is that the map is <strong>smooth and organized</strong>. You can move from one point to another and get a smooth transition between images. You can mix two images by averaging their map coordinates. The structure is meaningful.
-  </p>
+<div class="diagram">
+  <div class="dlabel">How a VAE works</div>
+  <div class="flow" style="margin-bottom:14px;">
+    <div class="b">Photo in<small>real image</small></div>
+    <div class="arr">→</div>
+    <div class="b dk">Encoder<small>squeeze to numbers</small></div>
+    <div class="arr">→</div>
+    <div class="b bl">A few numbers<small>the secret language</small></div>
+    <div class="arr">→</div>
+    <div class="b dk">Decoder<small>rebuild to image</small></div>
+    <div class="arr">→</div>
+    <div class="b gn">Photo out<small>reconstructed</small></div>
+  </div>
+  <div class="flow">
+    <div class="b dash">Any numbers<small>pick randomly</small></div>
+    <div class="arr">→</div>
+    <div class="b dk">Decoder<small>rebuild to image</small></div>
+    <div class="arr r">→</div>
+    <div class="b rd">New image<small>never existed</small></div>
+  </div>
+  <div class="dcap">Top row: training. Bottom row: generating something new.</div>
+</div>
+
+<p>The numbers in the middle are organized — similar images get similar numbers. That means you can blend two images by mixing their numbers, or explore new images by changing the numbers slightly.</p>
 
   <!-- ── DIFFUSION ── -->
   <h3>Architecture 3 — Diffusion Models</h3>
