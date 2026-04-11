@@ -392,7 +392,6 @@ article { animation: up 0.65s 0.1s ease both; }
 
 <!-- ════════ HEADER ════════ -->
 <header>
-  <div class="kicker">Computer Vision & Gen AI &nbsp;·&nbsp; &nbsp;·&nbsp; April 10, 2026</div>
   <h1>Generative AI in Computer Vision</h1>
   <p class="standfirst">
     For years, computer vision was about understanding images. Now, it creates them. This article explains the three architectures behind that shift — and why it matters.
@@ -407,16 +406,16 @@ article { animation: up 0.65s 0.1s ease both; }
   <h2>1. What Is Generative AI in Computer Vision?</h2>
 
   <p>
-    Most AI we interact with is a <strong>reader</strong>. You show it a photo and it tells you what is in it. That is classic computer vision — it reads images and produces answers.
+    Most AI we interact with is a <strong>reader</strong>. You show it a photo and it tells you what is in it. That is classic computer vision it reads images and produces answers.
   </p>
 
   <p>
-    Generative AI is different. It is a <strong>writer</strong>. It has studied so many images that it learned the rules of what images look like. Now it can follow those rules to create completely new ones — faces that belong to nobody, landscapes that do not exist, scenes that were never photographed.
+    Generative AI is different. It is a <strong>writer</strong>. It has studied so many images that it learned the rules of what images look like. Now it can follow those rules to create completely new ones faces that belong to nobody, landscapes that do not exist, scenes that were never photographed.
   </p>
 
   <div class="analogy">
     <div class="analogy-label">Analogy</div>
-    <p>Imagine a student who reads ten thousand books to learn how stories work. After a while, they do not need to read anymore — they can write their own stories using everything they absorbed. Generative AI is that student, but for images.</p>
+    <p>Imagine a student who reads ten thousand books to learn how stories work. After a while, they do not need to read anymore , they can write their own stories using everything they absorbed. Generative AI is that student, but for images.</p>
   </div>
 
   <p>The two approaches handle images in opposite directions:</p>
@@ -448,11 +447,11 @@ article { animation: up 0.65s 0.1s ease both; }
   <h2>2. Why Use Generative AI?</h2>
 
   <p>
-    The biggest challenge in AI is data. Training a model requires thousands — sometimes millions — of labeled examples. But getting that data is hard, expensive, and sometimes simply impossible.
+    The biggest challenge in AI is data. Training a model requires thousands , sometimes millions of labeled examples. But getting that data is hard, expensive, and sometimes simply impossible.
   </p>
 
   <p>
-    Generative AI solves this problem. When you do not have enough real data, you manufacture realistic fake data. The model trains on it just as well.
+    Generative AI solves this problem. When you do not have enough real data, you manufacture realistic fake data. 
   </p>
 
   <p>Here are three concrete situations where this matters:</p>
@@ -472,7 +471,7 @@ article { animation: up 0.65s 0.1s ease both; }
   <h2>3. The Three Main Architectures</h2>
 
   <p>
-    There are three main families of generative models in computer vision. Each one solves the same problem — creating realistic images but uses a completely different strategy. Think of them as three different recipes for the same dish.
+    There are three main families of generative models in computer vision. Each one solves the same problem , creating realistic images but uses a completely different strategy. Think of them as three different recipes for the same dish.
   </p>
 
   <div class="note">
@@ -498,14 +497,14 @@ article { animation: up 0.65s 0.1s ease both; }
       <div class="sn"></div>
       <div class="sb">
         <h4>Start with random noise</h4>
-        <p>The Generator receives a bag of random numbers — like static on a TV. It knows nothing yet about what a real image looks like.</p>
+        <p>The Generator receives a bag of random numbers like static on a TV. It knows nothing yet about what a real image looks like.</p>
       </div>
     </div>
     <div class="step">
       <div class="sn"></div>
       <div class="sb">
         <h4>The Generator creates a fake image</h4>
-        <p>It runs the noise through many layers of computation and produces an image. At first it looks terrible — blurry blobs of color.</p>
+        <p>It runs the noise through many layers of computation and produces an image. At first it looks terrible, blurry blobs of color.</p>
       </div>
     </div>
     <div class="step">
@@ -564,7 +563,7 @@ article { animation: up 0.65s 0.1s ease both; }
       <div class="sn"></div>
       <div class="sb">
         <h4>Feed a real image into the Encoder</h4>
-        <p>A photo of a face goes in. The Encoder reads it and squeezes all the information into just a handful of numbers — the coordinates on our map. This is called the latent space.</p>
+        <p>A photo of a face goes in. The Encoder reads it and squeezes all the information into just a handful of numbers  the coordinates on our map. This is called the latent space.</p>
       </div>
     </div>
     <div class="step">
@@ -627,11 +626,11 @@ article { animation: up 0.65s 0.1s ease both; }
 
   <div class="analogy">
     <div class="analogy-label">Analogy</div>
-    <p>Someone takes a completed puzzle and removes one piece at a time, until there is nothing left — just a pile of pieces. A Diffusion Model learns to put the puzzle back together, one piece at a time. Once it knows how, it can start from any pile of pieces and assemble a brand new picture it has never seen before.</p>
+    <p>Someone takes a completed puzzle and removes one piece at a time, until there is nothing left  just a pile of pieces. A Diffusion Model learns to put the puzzle back together, one piece at a time. Once it knows how, it can start from any pile of pieces and assemble a brand new picture it has never seen before.</p>
   </div>
 
   <p>
-    Diffusion Models are the newest of the three approaches, and they produce the best results today. They power Stable Diffusion, DALL·E 3, and most modern text-to-image tools.
+    Diffusion Models are the newest of the three approaches, and they produce the best results today. They power Stable Diffusion and most modern text-to-image tools.
   </p>
 
   <p><strong>How it works, step by step:</strong></p>
