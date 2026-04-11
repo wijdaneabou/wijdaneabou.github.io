@@ -392,12 +392,12 @@ article { animation: up 0.65s 0.1s ease both; }
 
 <!-- ════════ HEADER ════════ -->
 <header>
-  <div class="kicker">Computer Vision & Gen AI &nbsp;·&nbsp; <span>Mini-TAF</span> &nbsp;·&nbsp; April 10, 2026</div>
+  <div class="kicker">Computer Vision & Gen AI &nbsp;·&nbsp; &nbsp;·&nbsp; April 10, 2026</div>
   <h1>Generative AI in Computer Vision</h1>
   <p class="standfirst">
     For years, computer vision was about understanding images. Now, it creates them. This article explains the three architectures behind that shift — and why it matters.
   </p>
-  <div class="byline">15 min read &nbsp;·&nbsp; No math &nbsp;·&nbsp; ELI5</div>
+ 
 </header>
 
 <!-- ════════ ARTICLE ════════ -->
@@ -444,8 +444,6 @@ article { animation: up 0.65s 0.1s ease both; }
     In practice, generative models can create new faces, complete missing parts of photos, turn a rough sketch into a detailed painting, or generate photorealistic scenes from a text description.
   </p>
 
-  <div class="br">· · ·</div>
-
   <!-- ── 2. WHY ── -->
   <h2>2. Why Use Generative AI?</h2>
 
@@ -468,16 +466,13 @@ article { animation: up 0.65s 0.1s ease both; }
   </p>
 
   <p>
-    <strong>Creating and improving.</strong> Fixing old damaged photos, sharpening satellite images, making product pictures without a photo shoot, animating a still face — all of these are things Generative AI in Computer Vision can do today.
+    <strong>Creating and improving.</strong> Fixing old damaged photos, sharpening satellite images, making product pictures without a photo shoot, animating a still face , all of these are things Generative AI in Computer Vision can do today.
   </p>
-
-  <div class="br">· · ·</div>
-
   <!-- ── 3. ARCHITECTURES ── -->
   <h2>3. The Three Main Architectures</h2>
 
   <p>
-    There are three main families of generative models in computer vision. Each one solves the same problem — creating realistic images — but uses a completely different strategy. Think of them as three different recipes for the same dish.
+    There are three main families of generative models in computer vision. Each one solves the same problem — creating realistic images but uses a completely different strategy. Think of them as three different recipes for the same dish.
   </p>
 
   <div class="note">
@@ -555,7 +550,7 @@ article { animation: up 0.65s 0.1s ease both; }
 
   <div class="analogy">
     <div class="analogy-label">Analogy</div>
-    <p>Imagine you want to describe every possible human face using just five numbers — like coordinates on a map. One number for age, one for smile, one for hair color, one for face shape, one for skin tone. Any face can be encoded as a point on this map. And any point on the map decodes back into a face. A VAE builds exactly this kind of map for images.</p>
+    <p>Imagine you can describe any face with just a few words : young, smiling, dark hair. That is it. A VAE does the same thing, but with numbers instead of words. It learns to shrink any image down to just a few numbers that capture what it looks like. Then it can work backwards , take any set of numbers and turn them back into an image. The numbers in the middle are the secret language the VAE invented for itself</p>
   </div>
 
   <p>
@@ -703,9 +698,6 @@ article { animation: up 0.65s 0.1s ease both; }
     </div>
     <div class="dcap">Start from static. Clean step by step. A new image appears.</div>
   </div>
-
-  <div class="br">· · ·</div>
-
   <!-- ── 4. COMPARISON ── -->
   <h2>4. A Simple Comparison</h2>
 
@@ -728,39 +720,61 @@ article { animation: up 0.65s 0.1s ease both; }
     </div>
   </div>
 
-  <div class="bestfor-grid">
-
-    <div class="bestfor-card">
-      <div class="bestfor-top" style="border-color: var(--red);">
-        <div class="bestfor-name" style="color: var(--red);">GAN</div>
-        <div class="bestfor-when">Choose this when you need sharp images fast.</div>
-      </div>
-      <p class="bestfor-summary">GANs are fast and produce very sharp images — but they are tricky to train and can sometimes get stuck generating the same few types of images.</p>
-      <div class="bestfor-tools">StyleGAN &nbsp;·&nbsp; CycleGAN</div>
-    </div>
-
-    <div class="bestfor-card">
-      <div class="bestfor-top" style="border-color: var(--blue);">
-        <div class="bestfor-name" style="color: var(--blue);">VAE</div>
-        <div class="bestfor-when">Choose this when you need to organize or understand image data.</div>
-      </div>
-      <p class="bestfor-summary">VAEs are stable and easy to train — but their outputs can look slightly blurry. Their real strength is building a structured map of the image world.</p>
-      <div class="bestfor-tools">VQ-VAE</div>
-    </div>
-
-    <div class="bestfor-card">
-      <div class="bestfor-top" style="border-color: var(--green);">
-        <div class="bestfor-name" style="color: var(--green);">Diffusion</div>
-        <div class="bestfor-when">Choose this when you want the best quality and can describe what you want in words.</div>
-      </div>
-      <p class="bestfor-summary">Diffusion Models are the slowest — but they produce the best images available today, and you can steer them with plain text like "a cat on the moon".</p>
-      <div class="bestfor-tools">DALL·E 3 &nbsp;·&nbsp; Stable Diffusion</div>
-    </div>
-
-  </div>
-
-  <div class="br">· · ·</div>
-
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Criterion</th>
+        <th>GAN</th>
+        <th>VAE</th>
+        <th>Diffusion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Strategy</td>
+        <td>Competition</td>
+        <td>Compression</td>
+        <td>Patience</td>
+      </tr>
+      <tr>
+        <td>Image quality</td>
+        <td>Very sharp</td>
+        <td>Sometimes blurry</td>
+        <td>Best today</td>
+      </tr>
+      <tr>
+        <td>Easy to train</td>
+        <td>Tricky</td>
+        <td>Yes</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>Generation speed</td>
+        <td>Very fast</td>
+        <td>Very fast</td>
+        <td>Slow</td>
+      </tr>
+      <tr>
+        <td>Works with text</td>
+        <td>Possible</td>
+        <td>Possible</td>
+        <td>Built-in</td>
+      </tr>
+      <tr>
+        <td>Best known for</td>
+        <td>Faces, style transfer</td>
+        <td>Finding odd images</td>
+        <td>Text-to-image</td>
+      </tr>
+      <tr>
+        <td>Famous tools</td>
+        <td>StyleGAN, CycleGAN</td>
+        <td>VQ-VAE</td>
+        <td>DALL·E 3, Stable Diffusion</td>
+      </tr>
+    </tbody>
+  </table>
+ 
   <!-- ── CONCLUSION ── -->
   <h2>Where This Is Going</h2>
 
@@ -780,8 +794,8 @@ article { animation: up 0.65s 0.1s ease both; }
 
 <!-- ════════ FOOTER ════════ -->
 <footer>
-  <span>Generative AI in Computer Vision · Mini-TAF · April 10, 2026</span>
-  <span>wijdaneabou.github.io</span>
+  <span>Generative AI in Computer Vision  April 10, 2026</span>
+  <span>wijdane abouzaid</span>
 </footer>
 
 </body>
