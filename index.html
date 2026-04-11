@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generative AI in Computer Vision</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink:    #1a1a1a;
+  --body:   #2d2d2d;
+  --soft:   #555;
+  --muted:  #999;
+  --border: #e4dfd6;
+  --bg:     #fdfcf9;
+  --warm:   #f7f3ec;
+  --red:    #b83232;
+  --green:  #1a6b3a;
+  --blue:   #1a3f6b;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+/* ── HEADER ── */
+header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 72px 28px 52px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.kicker span { color: var(--red); }
+
+h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+  margin-bottom: 20px;
+}
+
+.standfirst {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--soft);
+  line-height: 1.72;
+  border-left: 3px solid var(--red);
+  padding-left: 18px;
+  margin-bottom: 26px;
+}
+
+.byline {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ── ARTICLE ── */
+article {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 52px 28px 100px;
+}
+
+/* ── TEXT ── */
+p { margin-bottom: 1.5em; }
+
+h2 {
+  font-family: 'Lora', serif;
+  font-size: 1.52rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 3.2em 0 0.75em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+  margin: 2.8em 0 0.6em;
+}
+
+strong { color: var(--ink); font-weight: 600; }
+
+/* ── SECTION BREAK ── */
+.br {
+  text-align: center;
+  margin: 3em 0;
+  color: var(--border);
+  font-size: 1.3rem;
+  letter-spacing: 14px;
+}
+
+/* ── ANALOGY ── */
+.analogy {
+  background: var(--warm);
+  border-left: 4px solid var(--red);
+  padding: 20px 24px;
+  margin: 2em 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.analogy-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.analogy p {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #444;
+  margin: 0;
+  line-height: 1.78;
+}
+
+/* ── STEPS ── */
+.steps { margin: 1.8em 0; counter-reset: st; }
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.sn {
+  counter-increment: st;
+  width: 32px; height: 32px;
+  min-width: 32px;
+  background: var(--ink);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.sn::before { content: counter(st); }
+
+.sb h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.sb p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  color: var(--soft);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── DIAGRAM ── */
+.diagram {
+  background: var(--warm);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 26px 20px 20px;
+  margin: 2.2em 0;
+  overflow-x: auto;
+}
+
+.dlabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.b {
+  background: white;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  min-width: 84px;
+  line-height: 1.3;
+}
+
+.b small {
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.b.dk  { background: var(--ink); color: white; border-color: var(--ink); }
+.b.dk small { color: #aaa; }
+.b.rd  { border-color: var(--red);   color: var(--red); }
+.b.gn  { border-color: var(--green); color: var(--green); }
+.b.bl  { border-color: var(--blue);  color: var(--blue); }
+.b.dash{ border-style: dashed; }
+
+.arr { font-size: 16px; color: #bbb; padding: 0 2px; flex-shrink: 0; }
+.arr.r { color: var(--red); }
+.arr.g { color: var(--green); }
+
+.dcap {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 14px;
+  font-style: italic;
+}
+
+/* ── COMPARISON ── */
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2em 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.cmp-table thead tr { background: var(--ink); color: white; }
+
+.cmp-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.cmp-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--soft);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.cmp-table tr:nth-child(even) td { background: #faf7f2; }
+.cmp-table td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+/* ── COOK CARDS ── */
+.cook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 1.8em 0;
+}
+
+.cook-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 16px;
+}
+
+.cook-card::before {
+  content: '';
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.cook-card:nth-child(1)::before { background: var(--red); }
+.cook-card:nth-child(2)::before { background: var(--blue); }
+.cook-card:nth-child(3)::before { background: var(--green); }
+
+.cook-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.cook-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--soft);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── HIGHLIGHT ── */
+.note {
+  background: #fef9e7;
+  border-left: 4px solid #f0b429;
+  padding: 16px 20px;
+  margin: 2em 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.note p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #5a4210;
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── FOOTER ── */
+footer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 26px 28px 60px;
+  border-top: 2px solid var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── FADE IN ── */
+@keyframes up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+header { animation: up 0.65s ease both; }
+article { animation: up 0.65s 0.1s ease both; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .cook-grid { grid-template-columns: 1fr; }
+  .flow { gap: 3px; }
+  .b { min-width: 70px; font-size: 11px; padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<header>
+  <div class="kicker">Computer Vision & Gen AI &nbsp;·&nbsp; <span>Mini-TAF</span> &nbsp;·&nbsp; April 10, 2026</div>
+  <h1>Generative AI in Computer Vision</h1>
+  <p class="standfirst">
+    For years, computer vision was about understanding images. Now, it creates them. This article explains the three architectures behind that shift — and why it matters.
+  </p>
+  <div class="byline">15 min read &nbsp;·&nbsp; No math &nbsp;·&nbsp; ELI5</div>
+</header>
+
+<!-- ════════ ARTICLE ════════ -->
+<article>
+
+  <!-- ── 1. WHAT IS IT ── -->
+  <h2>1. What Is Generative AI in Computer Vision?</h2>
+
+  <p>
+    Most AI we interact with is a <strong>reader</strong>. You show it a photo and it tells you what is in it. That is classic computer vision — it reads images and produces answers.
+  </p>
+
+  <p>
+    Generative AI is different. It is a <strong>writer</strong>. It has studied so many images that it learned the rules of what images look like. Now it can follow those rules to create completely new ones — faces that belong to nobody, landscapes that do not exist, scenes that were never photographed.
+  </p>
+
+  <div class="analogy">
+    <div class="analogy-label">Analogy</div>
+    <p>Imagine a student who reads ten thousand books to learn how stories work. After a while, they do not need to read anymore — they can write their own stories using everything they absorbed. Generative AI is that student, but for images.</p>
+  </div>
+
+  <p>The two approaches handle images in opposite directions:</p>
+
+  <div class="diagram">
+    <div class="dlabel">Two ways AI can work with images</div>
+    <div class="flow" style="margin-bottom:16px;">
+      <div class="b" style="font-size:22px; border:none; background:none;">🖼️</div>
+      <div class="arr">→</div>
+      <div class="b dk">Classic AI</div>
+      <div class="arr">→</div>
+      <div class="b gn">"This is a cat"</div>
+    </div>
+    <div class="flow">
+      <div class="b" style="font-size:22px; border:none; background:none;">💭</div>
+      <div class="arr">→</div>
+      <div class="b dk">Generative AI</div>
+      <div class="arr r">→</div>
+      <div class="b rd">A new image</div>
+    </div>
+    <div class="dcap">Classic AI looks at images. Generative AI creates them.</div>
+  </div>
+
+  <p>
+    In practice, generative models can create new faces, complete missing parts of photos, turn a rough sketch into a detailed painting, or generate photorealistic scenes from a text description.
+  </p>
+
+  <div class="br">· · ·</div>
+
+  <!-- ── 2. WHY ── -->
+  <h2>2. Why Use Generative AI?</h2>
+
+  <p>
+    The biggest challenge in AI is data. Training a model requires thousands — sometimes millions — of labeled examples. But getting that data is hard, expensive, and sometimes simply impossible.
+  </p>
+
+  <p>
+    Generative AI solves this problem. When you do not have enough real data, you manufacture realistic fake data. The model trains on it just as well.
+  </p>
+
+  <p>Here are three concrete situations where this matters:</p>
+
+  <p>
+    <strong>Not enough photos.</strong> Training a vision model takes a lot of labeled examples. In medicine or factory inspection, you might only have a handful of real cases. A generative model can make thousands of realistic extras to fill that gap.
+  </p>
+
+  <p>
+    <strong>Privacy.</strong> You cannot always share real patient photos or security footage. Fake synthetic images can hold the same useful information without putting anyone at risk.
+  </p>
+
+  <p>
+    <strong>Creating and improving.</strong> Fixing old damaged photos, sharpening satellite images, making product pictures without a photo shoot, animating a still face — all of these are things Generative AI in Computer Vision can do today.
+  </p>
+
+  <div class="br">· · ·</div>
+
+  <!-- ── 3. ARCHITECTURES ── -->
+  <h2>3. The Three Main Architectures</h2>
+
+  <p>
+    There are three main families of generative models in computer vision. Each one solves the same problem — creating realistic images — but uses a completely different strategy. Think of them as three different recipes for the same dish.
+  </p>
+
+  <div class="note">
+    <p><strong>Quick overview:</strong> GANs use competition. VAEs use compression. Diffusion Models use patience. All three produce images. Each has situations where it shines.</p>
+  </div>
+
+  <!-- ── GAN ── -->
+  <h3>Architecture 1 — GANs (Generative Adversarial Networks)</h3>
+
+  <div class="analogy">
+    <div class="analogy-label">Analogy</div>
+    <p>Imagine a forger trying to make fake paintings, and an art expert trying to catch them. The forger studies the expert's mistakes and improves. The expert studies the forger's tricks and improves. After thousands of rounds, the forger makes paintings so realistic that nobody — not even the expert — can tell the difference.</p>
+  </div>
+
+  <p>
+    A GAN has exactly two parts playing exactly this game. One creates, one judges, and together they improve each other.
+  </p>
+
+  <p><strong>How it works, step by step:</strong></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Start with random noise</h4>
+        <p>The Generator receives a bag of random numbers — like static on a TV. It knows nothing yet about what a real image looks like.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>The Generator creates a fake image</h4>
+        <p>It runs the noise through many layers of computation and produces an image. At first it looks terrible — blurry blobs of color.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>The Discriminator judges</h4>
+        <p>It sees the fake image alongside real images from the dataset. It outputs a score: how likely is this image to be real? It tries to catch the fake.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Both networks learn from the result</h4>
+        <p>If the Discriminator catches the fake, the Generator gets feedback and adjusts. If the Generator fools the Discriminator, the Discriminator adjusts. Round after round, both get better.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Repeat millions of times</h4>
+        <p>After enough rounds, the Generator produces images so realistic that the Discriminator has no idea whether they are real or fake. Training is done.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="dlabel">How a GAN works</div>
+    <div class="flow">
+      <div class="b dk">Generator<small>makes fakes</small></div>
+      <div class="arr r">→</div>
+      <div class="b rd">Fake image</div>
+      <div class="arr">→</div>
+      <div class="b dk">Discriminator<small>real or fake?</small></div>
+      <div class="arr">→</div>
+      <div class="b gn">Feedback<small>both improve</small></div>
+    </div>
+    <div class="dcap">They compete until the fake looks real.</div>
+  </div>
+
+  <!-- ── VAE ── -->
+  <h3>Architecture 2 — VAEs (Variational Autoencoders)</h3>
+
+  <div class="analogy">
+    <div class="analogy-label">Analogy</div>
+    <p>Imagine you want to describe every possible human face using just five numbers — like coordinates on a map. One number for age, one for smile, one for hair color, one for face shape, one for skin tone. Any face can be encoded as a point on this map. And any point on the map decodes back into a face. A VAE builds exactly this kind of map for images.</p>
+  </div>
+
+  <p>
+    A VAE has two halves. The <strong>Encoder</strong> compresses images down to a small set of numbers. The <strong>Decoder</strong> expands those numbers back into images. Together, they learn a compressed language for describing what images look like.
+  </p>
+
+  <p><strong>How it works, step by step:</strong></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Feed a real image into the Encoder</h4>
+        <p>A photo of a face goes in. The Encoder reads it and squeezes all the information into just a handful of numbers — the coordinates on our map. This is called the latent space.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Add a little randomness</h4>
+        <p>Instead of a single point, the Encoder produces a small cloud of possible points. This is what makes it variational — it does not commit to one exact location, but a range. This is what makes generation possible later.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>The Decoder reconstructs the image</h4>
+        <p>A point is picked from the cloud and handed to the Decoder. The Decoder expands those few numbers back into a full image. It tries to recreate the original photo as closely as possible.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>The model learns by comparing</h4>
+        <p>We compare the reconstructed image to the original. The model adjusts to make them match better. It also learns to keep the map organized — similar faces should sit close together on the map.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>To generate: skip the Encoder</h4>
+        <p>Once trained, we can pick any random point on the map, hand it to the Decoder, and get a brand new image. No input photo needed — just a coordinate on the learned map.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="dlabel">How a VAE works</div>
+    <div class="flow" style="margin-bottom:14px;">
+      <div class="b gn">Photo in</div>
+      <div class="arr">→</div>
+      <div class="b dk">Compress<small>into a few numbers</small></div>
+      <div class="arr">→</div>
+      <div class="b dk">Rebuild<small>back to image</small></div>
+      <div class="arr">→</div>
+      <div class="b gn">Photo out</div>
+    </div>
+    <div class="flow">
+      <div class="b dash">Pick any number</div>
+      <div class="arr">→</div>
+      <div class="b dk">Rebuild</div>
+      <div class="arr r">→</div>
+      <div class="b rd">New image</div>
+    </div>
+    <div class="dcap">Compress a photo into a few numbers. Use any numbers to create a new photo.</div>
+  </div>
+
+  <p>
+    The most powerful thing about a VAE is that the map is <strong>smooth and organized</strong>. You can move from one point to another and get a smooth transition between images. You can mix two images by averaging their map coordinates. The structure is meaningful.
+  </p>
+
+  <!-- ── DIFFUSION ── -->
+  <h3>Architecture 3 — Diffusion Models</h3>
+
+  <div class="analogy">
+    <div class="analogy-label">Analogy</div>
+    <p>Someone takes a completed puzzle and removes one piece at a time, until there is nothing left — just a pile of pieces. A Diffusion Model learns to put the puzzle back together, one piece at a time. Once it knows how, it can start from any pile of pieces and assemble a brand new picture it has never seen before.</p>
+  </div>
+
+  <p>
+    Diffusion Models are the newest of the three approaches, and they produce the best results today. They power Stable Diffusion, DALL·E 3, and most modern text-to-image tools.
+  </p>
+
+  <p><strong>How it works, step by step:</strong></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Slowly ruin a photo</h4>
+        <p>Take a real photo. Add a little blur and noise. Add more. Keep going until you cannot tell what the photo was. The photo is now just random static. This step has no learning — it is just destruction.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Teach the model to clean one step</h4>
+        <p>Show the model a ruined photo and ask it one simple question: what small change would make this slightly less ruined? The model practices this millions of times until it gets good at it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Practice on every level of damage</h4>
+        <p>The model sees photos that are slightly ruined, half ruined, and completely ruined. It learns what to do at every stage. No matter how bad the damage is, it knows the next small cleaning step.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>To create: start from nothing</h4>
+        <p>At creation time, we give the model pure static — no photo, just noise. It cleans a little. Then a little more. Step by step, something appears. After enough steps, a real-looking image is there.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn"></div>
+      <div class="sb">
+        <h4>Use words to guide it</h4>
+        <p>We can tell the model what we want — "a dog on a beach". As it cleans the static, it steers toward that description. This is how DALL·E 3 and Stable Diffusion turn words into images.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <div class="dlabel">How a Diffusion Model works</div>
+    <div style="font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:var(--red);text-align:center;margin-bottom:8px;">Step 1 — Ruin the photo</div>
+    <div class="flow" style="margin-bottom:16px;">
+      <div class="b gn">Clear photo</div>
+      <div class="arr r">→</div>
+      <div class="b">A bit noisy</div>
+      <div class="arr r">→</div>
+      <div class="b">Very noisy</div>
+      <div class="arr r">→</div>
+      <div class="b rd">Pure static</div>
+    </div>
+    <div style="font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:var(--green);text-align:center;margin-bottom:8px;">Step 2 — Clean it back up (this is what the AI learns)</div>
+    <div class="flow">
+      <div class="b rd">Pure static</div>
+      <div class="arr g">→</div>
+      <div class="b">Less noisy</div>
+      <div class="arr g">→</div>
+      <div class="b">Almost clear</div>
+      <div class="arr g">→</div>
+      <div class="b gn">New image</div>
+    </div>
+    <div class="dcap">Start from static. Clean step by step. A new image appears.</div>
+  </div>
+
+  <div class="br">· · ·</div>
+
+  <!-- ── 4. COMPARISON ── -->
+  <h2>4. A Simple Comparison</h2>
+
+  <p>
+    Picture three cooks asked to remake a dish they only tasted once.
+  </p>
+
+  <div class="cook-grid">
+    <div class="cook-card">
+      <div class="cook-name">GAN</div>
+      <p>One cook makes the food, the other tastes and criticizes. They go back and forth until the food is perfect — and the taster cannot tell it from the original.</p>
+    </div>
+    <div class="cook-card">
+      <div class="cook-name">VAE</div>
+      <p>The cook writes a short note about the dish ("salty, golden, thick"), then cooks from those notes. Reliable and easy to remix, but sometimes misses the finer details.</p>
+    </div>
+    <div class="cook-card">
+      <div class="cook-name">Diffusion</div>
+      <p>The cook starts with a random pile of ingredients and slowly shapes them into the dish, one small step at a time. The slowest method — but often the best result.</p>
+    </div>
+  </div>
+
+  <div class="bestfor-grid">
+
+    <div class="bestfor-card">
+      <div class="bestfor-top" style="border-color: var(--red);">
+        <div class="bestfor-name" style="color: var(--red);">GAN</div>
+        <div class="bestfor-when">Choose this when you need sharp images fast.</div>
+      </div>
+      <p class="bestfor-summary">GANs are fast and produce very sharp images — but they are tricky to train and can sometimes get stuck generating the same few types of images.</p>
+      <div class="bestfor-tools">StyleGAN &nbsp;·&nbsp; CycleGAN</div>
+    </div>
+
+    <div class="bestfor-card">
+      <div class="bestfor-top" style="border-color: var(--blue);">
+        <div class="bestfor-name" style="color: var(--blue);">VAE</div>
+        <div class="bestfor-when">Choose this when you need to organize or understand image data.</div>
+      </div>
+      <p class="bestfor-summary">VAEs are stable and easy to train — but their outputs can look slightly blurry. Their real strength is building a structured map of the image world.</p>
+      <div class="bestfor-tools">VQ-VAE</div>
+    </div>
+
+    <div class="bestfor-card">
+      <div class="bestfor-top" style="border-color: var(--green);">
+        <div class="bestfor-name" style="color: var(--green);">Diffusion</div>
+        <div class="bestfor-when">Choose this when you want the best quality and can describe what you want in words.</div>
+      </div>
+      <p class="bestfor-summary">Diffusion Models are the slowest — but they produce the best images available today, and you can steer them with plain text like "a cat on the moon".</p>
+      <div class="bestfor-tools">DALL·E 3 &nbsp;·&nbsp; Stable Diffusion</div>
+    </div>
+
+  </div>
+
+  <div class="br">· · ·</div>
+
+  <!-- ── CONCLUSION ── -->
+  <h2>Where This Is Going</h2>
+
+  <p>
+    Ten years ago, generating a realistic image was a research curiosity. Today, it is a consumer product used by millions. The three architectures covered here — GANs, VAEs, and Diffusion Models — each contributed something essential to that journey.
+  </p>
+
+  <p>
+    GANs showed that competition between two networks could produce images indistinguishable from photographs. VAEs showed that compressing images into a structured map opened up powerful ways to understand and manipulate visual data. Diffusion Models showed that slow, careful, step-by-step denoising could beat both.
+  </p>
+
+  <p>
+    The field now moves toward video, 3D scenes, and models that can see, generate, and reason about images all at once. But the foundations are the three architectures in this article. Understanding them means understanding where modern visual AI comes from — and where it is headed.
+  </p>
+
+</article>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <span>Generative AI in Computer Vision · Mini-TAF · April 10, 2026</span>
+  <span>wijdaneabou.github.io</span>
+</footer>
+
+</body>
+</html>
