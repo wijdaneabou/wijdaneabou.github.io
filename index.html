@@ -504,14 +504,14 @@ article { animation: up 0.65s 0.1s ease both; }
       <div class="sn"></div>
       <div class="sb">
         <h4>The Generator creates a fake image</h4>
-        <p>It runs the noise through many layers of computation and produces an image. At first it looks terrible, blurry blobs of color.</p>
+        <p>It runs the noise through many layers of computation and produces an image. At first it looks terrible.</p>
       </div>
     </div>
     <div class="step">
       <div class="sn"></div>
       <div class="sb">
         <h4>The Discriminator judges</h4>
-        <p>It sees the fake image alongside real images from the dataset. It outputs a score: how likely is this image to be real? It tries to catch the fake.</p>
+        <p>It sees the fake image alongside real images from the dataset, It outputs a score: how likely is this image to be real? It tries to catch the fake.</p>
       </div>
     </div>
     <div class="step">
@@ -596,18 +596,18 @@ article { animation: up 0.65s 0.1s ease both; }
 
 <div class="diagram">
   <div class="dlabel">How a VAE works</div>
-  <div class="flow" style="margin-bottom:14px;">
+  <div class="flow" style="margin-bottom:14px; flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start;">
     <div class="b">Photo in<small>real image</small></div>
     <div class="arr">→</div>
     <div class="b dk">Encoder<small>squeeze to numbers</small></div>
     <div class="arr">→</div>
-    <div class="b bl">A few numbers<small>the secret language</small></div>
+    <div class="b bl">A few numbers<small>secret language</small></div>
     <div class="arr">→</div>
     <div class="b dk">Decoder<small>rebuild to image</small></div>
     <div class="arr">→</div>
     <div class="b gn">Photo out<small>reconstructed</small></div>
   </div>
-  <div class="flow">
+  <div class="flow" style="flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start;">
     <div class="b dash">Any numbers<small>pick randomly</small></div>
     <div class="arr">→</div>
     <div class="b dk">Decoder<small>rebuild to image</small></div>
@@ -617,7 +617,7 @@ article { animation: up 0.65s 0.1s ease both; }
   <div class="dcap">Top row: training. Bottom row: generating something new.</div>
 </div>
 
-<p>The numbers in the middle are organized — similar images get similar numbers. That means you can blend two images by mixing their numbers, or explore new images by changing the numbers slightly.</p>
+<p>The numbers in the middle are organized similar images get similar numbers. That means you can blend two images by mixing their numbers, or explore new images by changing the numbers slightly.</p>
 
   <!-- ── DIFFUSION ── -->
   <h3>Architecture 3 — Diffusion Models</h3>
